@@ -709,14 +709,54 @@
         container.appendChild(msg);
         container.scrollTop = container.scrollHeight;
     }
-    function sendMessage() {
-        const input = document.getElementById('chat-input');
-        const val = input.value.trim();
-        if (!val) return;
-        addMessage(val, true);
-        input.value = '';
-        setTimeout(() => addMessage("I can help with products, stock, or warranty.", false), 1000);
+    // --- PASTE THIS REPLACEMENT CODE ---
+
+// 1. The function to talk to Gemini
+async function getGeminiResponse(userMessage) {
+    const apiKey = AIzaSyAuTm3orQCidLjDnooFXMTd658RQ8lvu_8; // <--- PASTE YOUR NEW KEY HERE
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const requestBody = {
+        contents: [{
+            parts: [{ text: userMessage }]
+        }]
+    };
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(requestBody)
+        });
+        const data = await response.json();
+        return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+        console.error("Error:", error);
+        return "Sorry, I am having trouble connecting to the AI right now.";
     }
+}
+
+// 2. The updated Send Message function
+function sendMessage() {
+    const input = document.getElementById('chat-input');
+    const val = input.value.trim();
+    if (!val) return;
+
+    // 1. Show user message
+    addMessage(val, true);
+    input.value = '';
+
+    // 2. Show a "thinking" placeholder
+    addMessage("Thinking...", false); 
+
+    // 3. Ask Gemini and update the chat
+    getGeminiResponse(val).then(reply => {
+        // Remove the "Thinking..." message (optional, or just add the new one)
+        const messages = document.getElementById('chat-messages');
+        messages.lastElementChild.innerHTML = reply; // Updates the last "Thinking..." bubble
+        messages.scrollTop = messages.scrollHeight;
+    });
+}
 
     window.onload = function() {
         renderProducts('productGrid', allProducts);
@@ -728,3 +768,4 @@
 </body>
 
 </html>
+
