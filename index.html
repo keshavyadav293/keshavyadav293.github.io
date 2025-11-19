@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-DL9SSLBN48"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-DL9SSLBN48');
+</script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZenTech — Minimalist Gadgets & AI Shopping</title>
@@ -713,17 +722,9 @@
 
 // 1. The function to talk to Gemini
 async function getGeminiResponse(userMessage) {
-
-
-    
-    const apiKey = "AIzaSyDG4vyg0ThzK6OWI0TUuewUb7gpziTCZPM"; // <--- PASTE YOUR NEW KEY HERE
+    const apiKey = AIzaSyAuTm3orQCidLjDnooFXMTd658RQ8lvu_8; // <--- PASTE YOUR NEW KEY HERE
     const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-    // Non-streaming endpoint (just to test if the key works)
-const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
 
-
-
-    
     const requestBody = {
         contents: [{
             parts: [{ text: userMessage }]
@@ -774,8 +775,4 @@ function sendMessage() {
     };
 </script>
 </body>
-
 </html>
-
-
-
